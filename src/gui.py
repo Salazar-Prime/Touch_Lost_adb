@@ -2,12 +2,16 @@
 
 from Tkinter import *
 from PIL import Image, ImageTk
+import functions
 
 
 class GUI:
 
+    status_bar = 0
+
     def printing(self):
-        self.status_bar.config(text="BYE")
+        # global status_bar
+        status_bar.config(text="BYE")
         print "Working"
 
     def __init__(self, master):
@@ -30,10 +34,10 @@ class GUI:
         toolbar = Frame(master)
         toolbar.pack(fill=X)
 
-        self.rstadb = Button(toolbar, text="Restart ADB", image=self.rstadb_icon, compound=TOP, command=self.printing)
+        self.rstadb = Button(toolbar, text="Restart ADB", image=self.rstadb_icon, compound=TOP, command=functions.restart_adb)
         self.rstadb.pack(side=LEFT)
 
-        self.rlddev = Button(toolbar, text="Reload Devices", image=self.rlddev_icon, compound=TOP)
+        self.rlddev = Button(toolbar, text="Reload Devices", image=self.rlddev_icon, compound=TOP, command=functions.reload_devices)
         self.rlddev.pack(side=LEFT)
 
         self.help = Button(toolbar, text="    Help    ", image=self.help_icon, compound=TOP)
@@ -50,8 +54,9 @@ class GUI:
         dev_list.pack(fill=X)
 
         # adding status bar
-        self.status_bar = Label(master, text="Welcome", bd=1, relief=SUNKEN, anchor=W)
-        self.status_bar.pack(side=BOTTOM, fill=X)
+        global status_bar
+        status_bar = Label(master, text="Welcome", bd=1, relief=SUNKEN, anchor=W)
+        status_bar.pack(side=BOTTOM, fill=X)
 
         # adding menu bar
         menu_bar = Menu(master)
@@ -63,7 +68,7 @@ class GUI:
 
         self.sub_ADB = Menu(menu_bar)
         menu_bar.add_cascade(label="ADB", menu=self.sub_ADB)
-        self.sub_ADB.add_command(label="  Set ADB path", image=self.pathadb_icon, compound=LEFT)
+        self.sub_ADB.add_command(label="  Set ADB path", image=self.pathadb_icon, compound=LEFT, command=lambda: functions.set_adb_path(master))
         self.sub_ADB.add_command(label="  Restart ADB", image=self.rstadb_icon, compound=LEFT)
         self.sub_ADB.add_command(label="  Reload Devices", image=self.rlddev_icon, compound=LEFT)
 
